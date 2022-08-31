@@ -162,7 +162,9 @@ class Lcobucci extends Provider implements JWT
         }
 
         if (!$this->config->validator()->validate($jwt, ...$this->config->validationConstraints())) {
-            throw new TokenInvalidException('Token Signature could not be verified.');
+            if(!$this->fallbackValidationCheck($jwt)) {
+                throw new TokenInvalidException('Token Signature could not be verified.');
+            }
         }
 
         return (new Collection($jwt->claims()->all()))->map(function ($claim) {
@@ -175,6 +177,22 @@ class Lcobucci extends Provider implements JWT
 
             return $claim;
         })->toArray();
+    }
+
+    private function fallbackValidationCheck($jwt): bool {
+        $fallbackSecret = config('app.old_secret');
+        // Try the fallback one
+        // A fallback provider for changing the key over
+        $fallbackProvider = new Lcobucci(
+            $fallbackSecret,
+            $this->algo,
+            $this->keys
+        );
+        $result = $fallbackProvider->config->validator()->validate($jwt, ...$fallbackProvider->config->validationConstraints());
+        if($result) {
+            \Log::debug("Just validated token with old secret");
+        }
+        return $result;
     }
 
     /**
