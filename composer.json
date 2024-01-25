@@ -35,10 +35,10 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
-        "illuminate/auth": "^6|^7|^8|^9",
-        "illuminate/contracts": "^6|^7|^8|^9",
-        "illuminate/http": "^6|^7|^8|^9",
-        "illuminate/support": "^6|^7|^8|^9",
+        "illuminate/auth": "^6|^7|^8|^9|^10",
+        "illuminate/contracts": "^6|^7|^8|^9|^10",
+        "illuminate/http": "^6|^7|^8|^9|^10",
+        "illuminate/support": "^6|^7|^8|^9|^10",
         "lcobucci/jwt": "^4.0",
         "namshi/jose": "^7.0",
         "nesbot/carbon": "^1.0|^2.0"
